@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_element
+// ignore_for_file: prefer_const_constructors, unused_element, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import './new_transaction.dart';
@@ -6,26 +6,24 @@ import './transaction_list.dart';
 import '../models/transaction.dart';
 
 class UserTransactions extends StatefulWidget {
-  const UserTransactions({super.key});
-
   @override
   State<UserTransactions> createState() => _UserTransactionsState();
 }
 
 class _UserTransactionsState extends State<UserTransactions> {
   final List<Transaction> _userTransaction = [
-    Transaction(
-      id: "t1",
-      title: "Headphones",
-      amount: 200.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "Shoes",
-      amount: 201.89,
-      date: DateTime.now(),
-    )
+    // Transaction(
+    //   id: "t1",
+    //   title: "Headphones",
+    //   amount: 200.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t2",
+    //   title: "Shoes",
+    //   amount: 201.89,
+    //   date: DateTime.now(),
+    // )
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
