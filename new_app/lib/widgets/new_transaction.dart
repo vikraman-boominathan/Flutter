@@ -1,24 +1,24 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, sized_box_for_whitespace, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
+
   NewTransaction(this.addTx);
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  _NewTransactionState createState() => _NewTransactionState();
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-
   DateTime _selectedDate;
 
   void _submitData() {
-    if (_amountController.text.isEmpty){
+    if (_amountController.text.isEmpty) {
       return;
     }
     final enteredTitle = _titleController.text;
@@ -31,7 +31,7 @@ class _NewTransactionState extends State<NewTransaction> {
     widget.addTx(
       enteredTitle,
       enteredAmount,
-      _selectedDate
+      _selectedDate,
     );
 
     Navigator.of(context).pop();
@@ -39,11 +39,11 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _presentDatePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2022),
-            lastDate: DateTime.now())
-        .then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }
@@ -51,59 +51,72 @@ class _NewTransactionState extends State<NewTransaction> {
         _selectedDate = pickedDate;
       });
     });
+    print('...');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: "Title"),
-              controller: _titleController,
-              onSubmitted: (_) =>
-                  _submitData, //on submitted needs a anonymous function to accept the value of the function called. "_" means i need it but I dont care about what is used here.
-              // keyboardType: TextInputType.text,
-              // onChanged: (value) => titleInput = value,
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: "Amount"),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              // onChanged: (value) => amountInput = value,
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(_selectedDate == null
-                        ? 'No date Chosen'
-                        : DateFormat.yMd().format(_selectedDate), style: TextStyle(fontSize: 15),),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        onSurface: Theme.of(context).primaryColor),
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+    return SingleChildScrollView( 
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (val) {
+                //   titleInput = val;
+                // },
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  foregroundColor: Theme.of(context).textTheme.button.color),
-              onPressed: _submitData,
-              child: Text("Add transaction"),
-            )
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (val) => amountInput = val,
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'No Date Chosen!'
+                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          onSurface: Theme.of(context).primaryColor),
+                      // ignore: prefer_const_constructors
+                      child: Text(
+                        'Choose Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: _presentDatePicker,
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                child: Text('Add Transaction'),
+                style: ElevatedButton.styleFrom(
+                    foregroundColor: Theme.of(context).textTheme.button.color),
+                onPressed: _submitData,
+              ),
+            ],
+          ),
         ),
       ),
     );
