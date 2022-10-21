@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/products_provider.dart';
 import '../providers/product.dart';
 import '../screens/product_detail_screen.dart';
+import '../providers/cart.dart';
 
 class ProductItem extends StatelessWidget {
 //   final String id;
@@ -14,7 +15,8 @@ class ProductItem extends StatelessWidget {
 //   ProductItem(this.id, this.imageUrl, this.title);
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -35,7 +37,8 @@ class ProductItem extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            onPressed: null,
+            onPressed: () =>
+                cart.addItem(product.id, product.price, product.title),
             icon: Icon(
               Icons.shopping_cart,
             ),
