@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +22,33 @@ class CartItem extends StatelessWidget {
         Provider.of<Cart>(context, listen: false).removeItem(productId);
       },
       direction: DismissDirection.endToStart,
+      // ignore: missing_return
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          // ignore: prefer_const_constructors
+          builder: (ctx) => AlertDialog(
+            title: Text('Are you Sure'),
+            content: Text(
+              'Do you want ot remove the item from the cart?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                child: Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                child: Text('No'),
+              ),
+            ],
+          ),
+        );
+      },
       background: Container(
         color: Theme.of(context).errorColor,
         child: Icon(
