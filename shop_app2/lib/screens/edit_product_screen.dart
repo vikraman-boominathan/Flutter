@@ -57,16 +57,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           'title': _editedProduct.title,
         };
       }
-      _editedProduct =
-          Provider.of<Products>(context, listen: false).findById(productId);
 
-      _initValue = {
-        'description': _editedProduct.description,
-        // 'imageUrl': _editedProduct.imageUrl,
-        'price': _editedProduct.price.toString(),
-        'title': _editedProduct.title,
-        'imageUrl': '',
-      };
       _imageUrlController.text = _editedProduct.imageUrl;
     }
     // TODO: implement didChangeDependencies
